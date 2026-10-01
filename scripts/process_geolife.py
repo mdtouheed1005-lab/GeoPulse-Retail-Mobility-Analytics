@@ -14,7 +14,7 @@ DATASET_PATH = (
 OUTPUT_FILE = Path("data/processed/geolife_sample.csv")
 
 # Process only a few files for Day 4 testing
-MAX_FILES = 10
+MAX_FILES = None
 
 
 # Create output folder if it does not exist
@@ -32,7 +32,7 @@ rows = []
 
 
 # Read trajectory files
-for file_path in trajectory_files[:MAX_FILES]:
+for file_path in (trajectory_files if MAX_FILES is None else trajectory_files[:MAX_FILES]):
 
     try:
         with open(file_path, "r", encoding="utf-8") as file:
