@@ -19,11 +19,15 @@ for df in pd.read_csv(INPUT_FILE, chunksize=100000):
     df["Latitude"] = pd.to_numeric(df["Latitude"], errors="coerce")
     df["Longitude"] = pd.to_numeric(df["Longitude"], errors="coerce")
 
-    # Check timestamp validity
-    valid_timestamp = pd.to_datetime(
+
+    # Check proper datetime timestamp
+    df["Timestamp"] = pd.to_datetime(
         df["Timestamp"],
-        errors="coerce"
-    ).notna()
+	errors="coerce"
+    )
+
+    valid_timestamp = df["Timestamp"].notna()
+
 
     # Keep only valid records
     valid = (
