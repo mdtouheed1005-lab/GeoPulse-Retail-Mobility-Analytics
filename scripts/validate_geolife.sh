@@ -1,33 +1,65 @@
 #!/bin/bash
 
-FILE="data/processed/geolife_sample.csv"
+FILE="data/processed/geopulse_cleaned.csv"
 
-echo "=== GeoLife Data Validation ==="
+echo "=================================="
+echo "GeoPulse Dataset Validation"
+echo "=================================="
 
-echo
-echo "1. Row count:"
-wc -l "$FILE"
+if [ ! -f "$FILE" ]; then
+    echo "ERROR: Dataset not found: $FILE"
+    exit 1
+fi
 
-echo
-echo "2. Invalid column count:"
-awk -F',' 'NR > 1 && NF != 8 {print "Invalid row:", NR, "Columns:", NF}' "$FILE"
+echo ""
+echo "1. Dataset row count:"
+wc -l < "$FILE"
 
-echo
-echo "3. Duplicate rows:"
-sort "$FILE" | uniq -d
-
-echo
-echo "4. Invalid latitude/longitude:"
-awk -F',' 'NR > 1 {
-    if ($2 < -90 || $2 > 90) print "Invalid latitude:", NR, $2
-    if ($3 < -180 || $3 > 180) print "Invalid longitude:", NR, $3
+echo ""
+echo "2. Checking column count..."
+awk -F',' '
+NR == 1 {
+    if ($1 == "DeviceID" &&
+        $2 == "Latitude" &&
+        $3 == "Longitude" &&
+        $4 == "Timestamp") {
+        print "PASS: Correct column headers"
+    } else {
+        print "ERROR: Unexpected headers:", $0
+    }
+    next
+}
+NF != 4 {
+    errors++
+}
+END {
+    print "Rows with incorrect column count:", errors+0
 }' "$FILE"
 
-echo
-echo "5. Missing date/time:"
-awk -F',' 'NR > 1 && ($7 == "" || $8 == "") {
-    print "Missing date/time:", NR
+echo ""
+echo "3. Checking latitude and longitude..."
+
+awk -F',' '
+NR == 1 { next }
+{
+    if ($2 !~ /^-?[0-9]+([.][0-9]+)?$/ ||
+        $2 < -90 || $2 > 90)
+        latitude_errors++
+
+    if ($3 !~ /^-?[0-9]+([.][0-9]+)?$/ ||
+        $3 < -180 || $3 > 180)
+        longitude_errors++
+
+    if ($4 == "")
+        missing_timestamps++
+}
+END {
+    print "Invalid latitude:", latitude_errors+0
+    print "Invalid longitude:", longitude_errors+0
+    print "Missing timestamps:", missing_timestamps+0
 }' "$FILE"
 
-echo
-echo "=== Validation Complete ==="
+echo ""
+echo "=================================="
+echo "Validation finished"
+echo "=================================="
