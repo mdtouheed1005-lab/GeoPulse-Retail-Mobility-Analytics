@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "kepler.gl": "^3.3.0-alpha.16",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
