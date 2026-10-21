@@ -30,3 +30,6 @@ SELECT
         2
     ) AS multi_store_device_percentage
 FROM device_summary;
+
+-- Day 16: Cannibalization validation checkpoint
+-- Sample query checks the multi-store visitor percentage calculation.
