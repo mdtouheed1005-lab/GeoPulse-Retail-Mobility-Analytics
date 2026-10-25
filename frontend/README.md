@@ -1,16 +1,57 @@
-# React + Vite
+# GeoPulse – Retail Mobility Analytics
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+GeoPulse is a retail mobility analytics dashboard designed to explore GPS movement patterns, store activity, and potential store cannibalization.
 
-Currently, two official plugins are available:
+## Technology Stack
+- React
+- Vite
+- JavaScript
+- CSS
+- Kepler.gl (geospatial visualization integration)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Dashboard Features
+- Overview dashboard
+- Mobility map section
+- Store performance section
+- Store comparison section
+- Store cannibalization analysis section
 
-## React Compiler
+## Prerequisites
+- Node.js
+- npm
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run the Application
 
-## Expanding the ESLint configuration
+Open a terminal in the `frontend` directory and execute:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Open the local address displayed in the terminal to view the dashboard.
+
+## Project Structure
+
+```text
+frontend/
+├── src/
+│   ├── assets/
+│   ├── App.jsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.jsx
+├── index.html
+├── package.json
+└── vite.config.js
+```
+
+## Data Validation
+GPS data validation is handled by Python scripts in the main project's `scripts/` directory. These scripts check data availability, coordinate validity, and traffic periods.
+
+## Important Note
+The dashboard's map and analytics features should be connected to validated geospatial data before being used for real business decisions. A displayed dashboard section does not necessarily mean its underlying live data integration is complete.
+
+## Project Status
+GeoPulse frontend dashboard structure and navigation have been developed. Further work includes completing map integration, connecting validated data, and verifying store-level cannibalization results.
